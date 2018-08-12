@@ -41,3 +41,8 @@ You're now all set to [follow along with the course](http://www.pluralsight.com/
 * Jan 23, 2016 - Fixed missing quotes around jQuery globals in .eslintrc.
 * Jan 12, 2017 - Added link to completed demo and updated demo that uses latest versions as of early 2017.
 * Feb 25, 2018 - Updated to work with Node 8.
+
+## Setup Intellisense in VSCode
+
+* [How To](https://mattdufeu.co.uk/setup-intellisense-vscode-react-js/).
+* [Location of jsconfig.json](https://code.visualstudio.com/docs/languages/javascript#_javascript-projects-jsconfigjson).
