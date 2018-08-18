@@ -35,6 +35,12 @@ Dispatcher.register(function(action) {
         case ActionType.CREATE_AUTHOR:
             _authors.push(action.author);
             AuthorStore.emitChange();
+            break;
+        case ActionType.INITIALIZE:
+            _authors = action.initialData.authors;
+            AuthorStore.emitChange();
+        default:
+            // no op
     }
 });
 
