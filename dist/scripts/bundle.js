@@ -51083,12 +51083,21 @@ var AuthorApi = require('../api/authorApi');
 var actionType = require('../constants/actionTypes');
 
 var AuthorActions = {
-    createAuthor: function(author) {
+    update: function(author) {
         var newAuthor = AuthorApi.saveAuthor(author);
 
         Dispatcher.dispatch({
             actionType: actionType.CREATE_AUTHOR,
             author: newAuthor
+        });
+    },
+
+    updateAuthor: function(author) {
+        var updateAuthor = AuthorApi.saveAuthor(author);
+
+        Dispatcher.dispatch({
+            actionType: actionType.UPDATE_AUTHOR,
+            author: updateAuthor
         });
     }
 };
@@ -51453,7 +51462,12 @@ var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
             return;
         }
 
-        AuthorActions.createAuthor(this.state.author);
+        if (this.state.author.id) {
+            AuthorActions.updateAuthor(this.state.author);
+        } else {
+            AuthorActions.createAuthor(this.state.author);
+        }
+
         this.setState({
             dirty: false
         });
@@ -51599,7 +51613,8 @@ var keyMirror = require('react/lib/keyMirror');
 
 module.exports = keyMirror({
     CREATE_AUTHOR: null,
-    INITIALIZE: null
+    INITIALIZE: null,
+    UPDATE_AUTHOR: null
 });
 
 },{"react/lib/keyMirror":190}],222:[function(require,module,exports){
@@ -51686,9 +51701,16 @@ Dispatcher.register(function(action) {
             _authors.push(action.author);
             AuthorStore.emitChange();
             break;
+        case ActionType.UPDATE_AUTHOR:
+            var existingAuthor = _.find(_authors, {id: action.author.id});
+            var existingAuthorIndex = _.indexOf(_authors, existingAuthor);
+            _authors.splice(existingAuthorIndex, 1, action.author);
+            AuthorStore.emitChange();
+            break;
         case ActionType.INITIALIZE:
             _authors = action.initialData.authors;
             AuthorStore.emitChange();
+            break;
         default:
             // no op
     }
