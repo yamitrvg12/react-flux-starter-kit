@@ -12,6 +12,15 @@ var CourseActions = {
             actionType: actionType.CREATE_COURSE,
             course: newCourse
         });
+    },
+
+    deleteAuthor: function(id) {
+        CourseApi.deleteCourse(id);
+
+        Dispatcher.dispatch({
+            actionType: actionType.DELETE_COURSE,
+            id: id
+        });
     }
 };
 

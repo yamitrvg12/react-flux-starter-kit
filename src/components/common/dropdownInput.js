@@ -3,7 +3,19 @@
 var React = require('react');
 
 var DropdownInput = React.createClass({
+    getInitialState: function() {
+        return {
+            value: this.props.authorSelected
+        };
+    },
 
+    _handleChange: function(event) {
+        this.props.onChange(event);
+        this.setState({
+            value: event.target.value
+        });
+    },
+    
     render: function() {
         var wrapperClass = 'form-group';
 
@@ -22,8 +34,10 @@ var DropdownInput = React.createClass({
                 <label htmlFor={this.props.name}>{this.props.label}</label>
                 <div className="field" id={this.props.name}>
                     <select 
-                        onChange={this.props.onChange}
-                        name={this.props.name}>
+                        className="form-control"
+                        onChange={this._handleChange}
+                        name={this.props.name}
+                        value={this.state.value} >
                         {this.props.list.map(createAuthorRow)}
                     </select>
                 </div>

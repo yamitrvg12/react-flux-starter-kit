@@ -3,6 +3,7 @@
 var Dispatcher = require('../dispatcher/appDispatcher');
 var ActionType = require('../constants/actionTypes');
 var assign = require('object-assign');
+var _ = require('lodash');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = "change";
 
@@ -23,6 +24,10 @@ var CourseStore = assign({}, EventEmitter.prototype, {
 
     getAllCourses: function() {
         return _courses;
+    },
+
+    getCourseById: function(id) {
+        return _.find(_courses, {id: id});
     }
 });
 
@@ -34,6 +39,12 @@ Dispatcher.register(function(action) {
             break;
         case ActionType.CREATE_COURSE:
             _courses.push(action.course);
+            CourseStore.emitChange();
+            break;
+        case ActionType.DELETE_COURSE:
+            _.remove(_courses, function(course) {
+                return action.id === course.id;
+            });
             CourseStore.emitChange();
             break;
         default:

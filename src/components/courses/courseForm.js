@@ -28,6 +28,7 @@ var CourseForm = React.createClass({
                 <DropdownInput name="author"
                     label="Author"
                     list={this.props.authorList}
+                    authorSelected={this.props.authorSelected}
                     onChange={this.props.onChange} />
 
                 <br />

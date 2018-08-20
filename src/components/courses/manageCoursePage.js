@@ -6,6 +6,7 @@ var CourseForm = require("./courseForm");
 var toastr = require('toastr');
 var CourseActions = require('../../actions/courseActions');
 var AuthorStore = require('../../stores/authorStore');
+var CourseStore = require('../../stores/courseStore');
 
 var ManageCoursePage = React.createClass({
     mixins: [
@@ -23,8 +24,7 @@ var ManageCoursePage = React.createClass({
     getAuthors: function() {
         var authorList = AuthorStore.getAllAuthors().map(function(author) {
             return {
-                name: author.firstName + ' ' + author.lastName,
-                id: author.id
+                name: author.firstName + ' ' + author.lastName
             };
         });
 
@@ -43,6 +43,17 @@ var ManageCoursePage = React.createClass({
             dirty: false,
             authorList: this.getAuthors()
         };
+    },
+
+    componentWillMount: function() {
+        var courseId = this.props.params.id;
+        
+        if(courseId) {
+            this.setState({
+                course: CourseStore.getCourseById(courseId)
+            });
+        }
+
     },
 
     setAuthorState: function(event) {
@@ -110,7 +121,8 @@ var ManageCoursePage = React.createClass({
                     onChange={this.setAuthorState}
                     onSave={this.saveCourse}
                     errors={this.state.errors}
-                    authorList={this.state.authorList} />
+                    authorList={this.state.authorList}
+                    authorSelected={this.state.course.author} />
             </div>
         );
     }
